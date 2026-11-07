@@ -70,17 +70,25 @@ background:rgba(20,19,18,.72);border:1px solid var(--gold);border-radius:999px;p
 .gallery button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .gallery .gal-fill{flex:1000 1 0;height:0}
 /* lightbox */
-.lb{position:fixed;inset:0;background:rgba(10,9,8,.96);z-index:50;display:flex;align-items:center;justify-content:center;touch-action:pan-y}
+html.lb-open,html.lb-open body{overflow:hidden;overscroll-behavior:none}
+html.lb-open body{position:fixed;left:0;right:0;width:100%}
+.lb{--fade:1;position:fixed;inset:0;z-index:50;background:rgba(10,9,8,calc(.97*var(--fade)));overscroll-behavior:contain;touch-action:none;
+-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
 .lb[hidden]{display:none}
-.lb figure{margin:0;max-width:94vw;max-height:88vh;display:flex;align-items:center;justify-content:center}
-.lb img{max-width:94vw;max-height:86vh;width:auto;height:auto;object-fit:contain;box-shadow:0 10px 40px rgba(0,0,0,.6);user-select:none;-webkit-user-drag:none}
-.lb button{position:absolute;background:rgba(20,19,18,.55);color:var(--ivory);border:1px solid rgba(201,182,138,.45);border-radius:999px;width:48px;height:48px;
-font-size:28px;line-height:1;cursor:pointer;display:grid;place-items:center;font-family:Arial,sans-serif}
+.lb-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none;
+padding:calc(env(safe-area-inset-top) + 64px) calc(env(safe-area-inset-right) + 72px) calc(env(safe-area-inset-bottom) + 64px) calc(env(safe-area-inset-left) + 72px);cursor:zoom-in}
+.lb.zoomed .lb-stage{cursor:grab}
+.lb-stage img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;transform-origin:center center;will-change:transform;
+box-shadow:0 10px 40px rgba(0,0,0,.6);-webkit-user-drag:none;pointer-events:auto}
+.lb button{position:absolute;z-index:2;background:rgba(20,19,18,.6);color:var(--ivory);border:1px solid rgba(201,182,138,.5);border-radius:999px;
+width:56px;height:56px;padding:0;cursor:pointer;display:grid;place-items:center;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:opacity .2s}
+.lb button svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .lb button:hover,.lb button:focus-visible{border-color:var(--gold);color:var(--gold)}
-.lb .close{top:16px;right:16px}
-.lb .prev{left:16px;top:50%;transform:translateY(-50%)}
-.lb .next{right:16px;top:50%;transform:translateY(-50%)}
-.lb .pos{position:absolute;bottom:14px;left:0;right:0;text-align:center;color:var(--muted);font-size:1rem;letter-spacing:.08em}
+.lb .close{top:calc(env(safe-area-inset-top) + 12px);right:calc(env(safe-area-inset-right) + 12px)}
+.lb .prev{left:calc(env(safe-area-inset-left) + 12px);top:50%;transform:translateY(-50%)}
+.lb .next{right:calc(env(safe-area-inset-right) + 12px);top:50%;transform:translateY(-50%)}
+.lb .pos{position:absolute;z-index:2;top:calc(env(safe-area-inset-top) + 26px);left:0;right:0;text-align:center;color:var(--ivory);font-size:1.05rem;letter-spacing:.1em;pointer-events:none;text-shadow:0 1px 4px rgba(0,0,0,.8)}
+.lb.zoomed .prev,.lb.zoomed .next{opacity:.35}
 
 /* service */
 .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;max-width:880px;margin:0 auto}
@@ -107,8 +115,10 @@ footer small{display:block;margin-top:18px;font-size:.9rem;opacity:.8}
  section{padding:60px 0}
  .wrap{padding:0 18px}
  .gallery{--h:120px;gap:6px}
- .lb .prev,.lb .next{top:auto;bottom:10px;transform:none}
- .lb .pos{bottom:24px}
+ .lb-stage{padding:calc(env(safe-area-inset-top) + 76px) env(safe-area-inset-right) calc(env(safe-area-inset-bottom) + 88px) env(safe-area-inset-left)}
+ .lb .prev,.lb .next{top:auto;bottom:calc(env(safe-area-inset-bottom) + 16px);transform:none;width:60px;height:60px}
+ .lb .prev{left:calc(env(safe-area-inset-left) + 20px)}.lb .next{right:calc(env(safe-area-inset-right) + 20px)}
+ .lb .close{width:52px;height:52px}
  .video-card .play{font-size:1rem;padding:7px 16px;bottom:5%}
  .portrait{margin-top:34px}
 }
